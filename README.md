@@ -23,5 +23,8 @@ A male/female classifier for handwriting
     (make sure to have a `ground_truth.txt` file to comapre the predictions results with it)
     
 #### Note:
-- check [Project Directory Structure](./work.md#project-dirictory-structure) in case having any issues
+- Check [Project Directory Structure](./work.md#project-dirictory-structure) in case of having any issues
+- Check [CMP23 Handwritten Males VS. Females Dataset](https://www.kaggle.com/datasets/essamwisamfouad/cmp23-handwritten-males-vs-females) 
+  and [ICDAR2013 - Gender Prediction from Handwriting](https://www.kaggle.com/competitions/icdar2013-gender-prediction-from-handwriting)
+  datasets
 

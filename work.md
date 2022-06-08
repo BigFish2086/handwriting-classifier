@@ -3,7 +3,7 @@
 - opencv
 - skimage
 - sklearn
-- [Hinge and Cold Feature Extraction](#https://github.com/Swati707/hinge_and_cold_feature_extraction)
+- [Hinge and Cold Feature Extraction](https://github.com/Swati707/hinge_and_cold_feature_extraction)
 
 ## Pre-process the data
 - read them as grayscale
