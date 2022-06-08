@@ -4,59 +4,67 @@ Created on Sat Dec 12 15:29:46 2020
 
 @author: swati
 """
-import argparse
 import os
-from datetime import datetime
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.svm import SVC
-from sklearn.model_selection import cross_val_score, cross_val_predict, RandomizedSearchCV
-from sklearn.metrics import *
+import argparse
+import pickle
 import numpy as np
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
 
-if __name__ == '__name__':
+# from sklearn.preprocessing import normalize
+# from feature_extrator import *
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="SVM Training")
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("--hinge_features", type=str, default=r"E:\swati-plp\gender_identification\existing_papers\gender_identification_gattal_et_al\data\our_dataset\hinge_features.npy")
-    parser.add_argument("--cold_features", type=str, default=r"E:\swati-plp\gender_identification\existing_papers\gender_identification_gattal_et_al\data\our_dataset\cold_features.npy")
-    parser.add_argument("--gt_label", type=str, default=r"E:\swati-plp\gender_identification\existing_papers\gender_identification_gattal_et_al\data\our_dataset\labels.npz")
+    parser.add_argument("--hinge_features", type=str)
+    parser.add_argument("--cold_features", type=str)
+    parser.add_argument("--gt_label", type=str)
     opt = parser.parse_args()
-    
-    x_hinge = np.load(opt.hinge_features)
-    x_cold = np.load(opt.cold_features)
-    y = np.load(opt.gt_label)['label']
-    label_names = np.load(opt.gt_label)['label_name']
-    
-    cs = MinMaxScaler()
-    x = cs.fit_transform(x_hinge) 
-    x = np.nan_to_num(x)
-    clf = SVC(kernel='rbf', verbose=True, C=10)
-    # scores = cross_val_score(clf, x, y, cv=10)
-    # print(scores)
-    y_pred_hinge = cross_val_predict(clf, x, y, cv=10)
-    
-    cs = MinMaxScaler()
-    x_ = cs.fit_transform(x_cold)
-    x_ = np.nan_to_num(x_)
-    clf = SVC(kernel='rbf', verbose=True, C=10)
-    # scores = cross_val_score(clf, x_, y, cv=10)
-    # print(scores)
-    y_pred_cold = cross_val_predict(clf, x_, y, cv=10)
-    
-    y_pred = np.maximum(y_pred_hinge, y_pred_cold)
-    
-    print('Confusion Matrix')
-    cf = confusion_matrix(y, y_pred)
-    cf_sum = cf.sum(axis = 1)[:, np.newaxis]
-    cf = np.round(cf / cf_sum * 100, 2)
-    float_formatter = "{:.2f}".format
-    np.set_printoptions(formatter={'float_kind':float_formatter})
-    print(repr(cf))
-    
-    cr = 0.0
-    for i in range(0, cf.shape[0]):
-        cr += cf[i][i]
-        
-    cr /= cf.shape[0]
-    print(f'classification rate = {np.round(cr, 2)}')
-    
-    print(classification_report(y, y_pred))
+    return opt
+
+
+def save_classifier(clf, filename):
+    filename = os.path.join(".", "classifiers", filename)
+    with open(filename, "wb") as clf_file:
+        pickle.dump(clf, clf_file)
+
+
+def svm_train(features, labels):
+    x = np.load(features)
+    y = np.load(labels)["label"]
+    # x = normalize(x, axis=0)
+    X_data, X_test, y_data, y_test = train_test_split(x, y, test_size=0.2)
+    clf = SVC(kernel="rbf", C=10, probability=True)
+    clf.fit(X_data, y_data)
+    y_pred = clf.score(X_test, y_test)
+    name = f"svm_{features.split('/')[-1].split('.')[0]}_train.pkl"
+    print(features, name)
+    save_classifier(clf, name)
+    return y_pred
+
+
+def avg_hing():
+    x = 0
+    for i in range(1, 101):
+        y = svm_train("./features/hinge_features.npy_features.npy", "./features/labels.npz")
+        print(f"{i} --> {y}")
+        x += y
+    print(x / 100)
+
+
+def avg_cold():
+    x = 0
+    for i in range(1, 101):
+        y = svm_train("./features/cold_features.npy", "./features/labels.npz")
+        print(f"{i} --> {y}")
+        x += y
+    print(x / 100)
+
+
+if __name__ == "__main__":
+    # opt = parse_args()
+    # avg_cold()
+    print("[*] Training SVM -- Average Hing")
+    avg_hing()
