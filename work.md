@@ -15,8 +15,8 @@
 
 ## Extract the features
 > extract the features from the cropped images using the following techniques
-- [X] COLD
-- [X] Hinge
+- [X] [COLD](./research/Cold.md)
+- [X] [Hinge](./research/Hinge.md)
 - [ ] LBP 
 - [ ] HOG 
 - [ ] GLCM, 
@@ -60,9 +60,12 @@
   - F hinge_features.npy
   - F labels.npz
 - D classifiers
-  - F svm_train_hinge_or_cold.pkl
-  - F svm_train_hinge_with_cold.pkl
-  - F svm_train_hinge_with_cold_pca.pkl
+  - F svm_hinge_features_train.pkl
+  - F svm_cold_features_train.pkl
+- D test 
+- D out
+  - F results.txt  
+  - F times.txt
 
 #### Note: 
   - just mkdir each < D * > before running the code
