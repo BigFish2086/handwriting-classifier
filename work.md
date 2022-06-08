@@ -29,13 +29,13 @@
 > train the model using the extracted features best classifiers till now are 
 - [X] SVM 
 - [ ] ANN
-[X] save the model in a file
+- [X] save the model in a file
 
 ## Test the model
 > test the model using the extracted features
 - [X] SVM 
 - [ ] ANN
-[X] save the results in a file
+- [X] save the results in a file
 
 ## Calculate the accuracy
 - [X] calculate the accuracy of the model for each features set
