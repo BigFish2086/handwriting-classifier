@@ -1,0 +1,7 @@
+opencv-python==4.5.5.64
+matplotlib==3.5.2
+imutils==0.5.4
+tqdm==4.64.0
+sklearn==0.0
+scikit-image==0.19.2
+notebook==6.4.11
