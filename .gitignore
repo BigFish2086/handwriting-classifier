@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ignore data-set
+data-set
+test
+out
+features
+classifiers
+preprocessed
