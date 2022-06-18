@@ -4,4 +4,4 @@ imutils==0.5.4
 tqdm==4.64.0
 sklearn==0.0
 scikit-image==0.19.2
-notebook==6.4.11
+notebook==6.4.12
